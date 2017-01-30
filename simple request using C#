@@ -2,20 +2,205 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 
-class Program
+namespace ConsoleApp4
 {
-    static void Main(string[] args)
+    class Program
     {
-        string uri = "https://tw171.open.allscripts.com/FHIRanon/Patient?_summary=true&given=Allison";
-        RunGet(uri);
-        Console.ReadLine();
-    }
+        static void Main(string[] args)
+        {
+            string uri = "https://tw171.open.allscripts.com/FHIRanon/Patient?_summary=true&given=Allison";
+            RunGet(uri);
+            Console.ReadLine();
+        }
 
-    static async void RunGet(string uri)
-    {
-        var httpClient = new HttpClient();
-        var response = await httpClient.GetStringAsync(uri);
-        var jsonResponse = JsonConvert.DeserializeObject(response);
-        Console.WriteLine(jsonResponse);
+        static async void RunGet(string uri)
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetStringAsync(uri);
+            Rootobject jsonResponse = JsonConvert.DeserializeObject<Rootobject>(response);
+            Console.WriteLine(jsonResponse.entry[0].resource.id);
+        }
     }
 }
+
+
+public class Rootobject
+{
+    public string resourceType { get; set; }
+    public string type { get; set; }
+    public Entry[] entry { get; set; }
+}
+
+public class Entry
+{
+    public Resource resource { get; set; }
+}
+
+public class Resource
+{
+    public string resourceType { get; set; }
+    public string id { get; set; }
+    public Extension[] extension { get; set; }
+    public Identifier[] identifier { get; set; }
+    public bool active { get; set; }
+    public Name[] name { get; set; }
+    public Telecom[] telecom { get; set; }
+    public string gender { get; set; }
+    public string birthDate { get; set; }
+    public bool deceasedBoolean { get; set; }
+    public Address[] address { get; set; }
+    public Maritalstatus maritalStatus { get; set; }
+    public bool multipleBirthBoolean { get; set; }
+    public Contact[] contact { get; set; }
+    public Communication[] communication { get; set; }
+    public Careprovider[] careProvider { get; set; }
+}
+
+public class Maritalstatus
+{
+    public Coding[] coding { get; set; }
+}
+
+public class Coding
+{
+    public string system { get; set; }
+    public string code { get; set; }
+    public string display { get; set; }
+}
+
+public class Extension
+{
+    public string url { get; set; }
+    public Valuecodeableconcept valueCodeableConcept { get; set; }
+}
+
+public class Valuecodeableconcept
+{
+    public Coding1[] coding { get; set; }
+}
+
+public class Coding1
+{
+    public string system { get; set; }
+    public string code { get; set; }
+    public string display { get; set; }
+}
+
+public class Identifier
+{
+    public Type type { get; set; }
+    public string system { get; set; }
+    public string value { get; set; }
+    public Assigner assigner { get; set; }
+}
+
+public class Type
+{
+    public Coding2[] coding { get; set; }
+    public string text { get; set; }
+}
+
+public class Coding2
+{
+    public string code { get; set; }
+    public string display { get; set; }
+    public bool userSelected { get; set; }
+}
+
+public class Assigner
+{
+    public string reference { get; set; }
+}
+
+public class Name
+{
+    public string text { get; set; }
+    public string[] family { get; set; }
+    public string[] given { get; set; }
+    public string[] prefix { get; set; }
+    public string[] suffix { get; set; }
+}
+
+public class Telecom
+{
+    public string system { get; set; }
+    public string value { get; set; }
+    public string use { get; set; }
+}
+
+public class Address
+{
+    public string text { get; set; }
+    public string[] line { get; set; }
+    public string city { get; set; }
+    public string state { get; set; }
+    public string postalCode { get; set; }
+    public string country { get; set; }
+}
+
+public class Contact
+{
+    public Relationship[] relationship { get; set; }
+    public Name1 name { get; set; }
+    public Telecom1[] telecom { get; set; }
+    public Address1 address { get; set; }
+}
+
+public class Name1
+{
+    public string text { get; set; }
+    public string[] family { get; set; }
+    public string[] given { get; set; }
+}
+
+public class Address1
+{
+    public string[] line { get; set; }
+    public string city { get; set; }
+    public string state { get; set; }
+    public string postalCode { get; set; }
+    public string country { get; set; }
+}
+
+public class Relationship
+{
+    public Coding3[] coding { get; set; }
+}
+
+public class Coding3
+{
+    public string code { get; set; }
+    public string display { get; set; }
+}
+
+public class Telecom1
+{
+    public string system { get; set; }
+    public string value { get; set; }
+    public string use { get; set; }
+}
+
+public class Communication
+{
+    public Language language { get; set; }
+}
+
+public class Language
+{
+    public Coding4[] coding { get; set; }
+}
+
+public class Coding4
+{
+    public string system { get; set; }
+    public string code { get; set; }
+    public string display { get; set; }
+}
+
+public class Careprovider
+{
+    public string reference { get; set; }
+    public string display { get; set; }
+}
+
+
