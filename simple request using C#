@@ -1,0 +1,21 @@
+using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string uri = "https://tw171.open.allscripts.com/FHIRanon/Patient?_summary=true&given=Allison";
+        RunGet(uri);
+        Console.ReadLine();
+    }
+
+    static async void RunGet(string uri)
+    {
+        var httpClient = new HttpClient();
+        var response = await httpClient.GetStringAsync(uri);
+        var jsonResponse = JsonConvert.DeserializeObject(response);
+        Console.WriteLine(jsonResponse);
+    }
+}
