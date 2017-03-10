@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<script src = "https://rawgit.com/smart-on-fhir/client-js/master/dist/fhir-client.js"></script> -->
+
+<p id = "response"></p>
+
+<script src = "fhir-client.js"></script>
+<script>
+
+    var smart = FHIR.client({
+        serviceUrl: 'https://fhir-open-api-dstu2.smarthealthit.org',
+        patientId: '1137192'
+    });
+
+    var patient = smart.patient;
+    patient.read().then(function(pt) {
+        var name =
+            pt.name[0].given.join(" ")
+            + " "+ pt.name[0].family.join(" ");
+        document.getElementById('response').innerHTML = name;
+    });
+
+</script>
+</body>
+</html>
